@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Play</title>
+        
+    </head>
+    <body>
+
+            <img id="mart" width="200px"/>
+<br/>
+            <span id="seektime">0.00</span>
+            <input type="range" id="pslider" min="0" max="100" step="0.01" >
+            <span id="pduration">0.00</span>
+            <br/>
+            
+            <button type="button" onclick="play()" >Play</button>
+            <button type="button" onclick="pause()" >Pause</button>
+
+            <button type="button" onclick="audio.muted = true" >Mute</button>
+            <button type="button" onclick="audio.muted = false" >Unmute</button>
+
+        
+       <script type="text/javascript" src="play.js"></script>
+    </body>
+</html>
