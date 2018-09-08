@@ -2,24 +2,28 @@
 <html>
     <head>
         <title>Play</title>
+        <link rel="stylesheet" href="cplayer.css">
         
     </head>
     <body>
 
-            <img id="mart" width="200px"/>
-<br/>
-            <span id="seektime">0.00</span>
-            <input type="range" id="pslider" min="0" max="100" step="0.01" >
-            <span id="pduration">0.00</span>
-            <br/>
+        <div>
             
+            <input type="range" id="pslider" class="seekslider" min="0" max="100" step="0.01" >
+            <span id="seektime">0.00</span>/<span id="pduration">0.00</span>            
+            <button type="button" onclick="playpause(this)" >Play</button>
             <button type="button" onclick="play()" >Play</button>
             <button type="button" onclick="pause()" >Pause</button>
 
-            <button type="button" onclick="audio.muted = true" >Mute</button>
-            <button type="button" onclick="audio.muted = false" >Unmute</button>
-
+            <button type="button" onclick="audio.muted = !audio.muted" >Mute</button>
+            <button type="button" onclick="showVolume()" >volume</button>
+            <input type="range" orient="vertical" class="volume" id="volume" min="0" max="1" step="0.01" value="0.50"/>
+        </div>
         
+        
+            <input type="text" id="theFile" onchange="loadFile(this)" />
+
+            
        <script type="text/javascript" src="play.js"></script>
     </body>
 </html>

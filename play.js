@@ -1,21 +1,6 @@
-var mfile = "mp3/01 - Gold Tamba (320 Kbps) - DownloadMing.SE.mp3";
+var mfile = "mp3/Haal - E - Dil (Male)(MyMp3Song).mp3";
 var audio = new Audio();
-var interval = {};
 
-function startSeek(){
-    interval = setInterval(function(){ 
-       var seek = (audio.currentTime/60).toFixed(2);
-       console.log( seek );
-       document.getElementById('pslider').value = seek ;
-    }, 1);
-   }
-
-   function showTime(){
-    interval = setInterval(function(){ 
-       var seek = (audio.currentTime/60).toFixed(2);
-       document.getElementById('seektime').value = seek;
-    }, 1);
-   }
 
 audio.addEventListener('loadeddata', function() 
 {
@@ -24,41 +9,73 @@ audio.addEventListener('loadeddata', function()
     duration = (duration / 60).toFixed(2);
     document.getElementById('pduration').innerHTML = duration;
     document.getElementById('pslider').max = duration;
-    startSeek();
-    showTime();
+    audio.volume = document.getElementById('volume').value;
     audio.play();
 }, false);
- 
+
+
+audio.addEventListener('timeupdate' , function() 
+{
+    var seek = (audio.currentTime/60).toFixed(2);
+    document.getElementById('seektime').innerHTML = seek;
+    document.getElementById('pslider').value = seek ;
+}, false);
+
 audio.addEventListener('error' , function() 
 {
     alert('error loading audio');
 }, false);
 
-document.getElementById('pslider').addEventListener('onmousedown' , function(e) 
+document.getElementById('pslider').oninput =  function(e) 
 {
-    clearInterval( interval );
-});
-
-document.getElementById('pslider').addEventListener('onmouseup' , function(e) 
-{
-    startSeek();
-});
-document.getElementById('pslider').addEventListener('change' , function(e) 
-{
-    clearInterval( interval );
     audio.currentTime = e.target.value*60;
-    // startSeek();
-});
+};
+
+document.getElementById('volume').oninput = function(e) 
+{
+    console.log( 'v change', this.value );
+    audio.volume = this.value;
+};
+
+
+
 function play(){
-    startSeek()
     audio.play();
 }
 
 function pause(){
-    clearInterval( interval );
     audio.pause();
 }
 
+function showVolume(){
+    if( 'none' == document.getElementById('volume').style.display){
+        document.getElementById('volume').style.display = 'block'; 
+    }else{
+        document.getElementById('volume').style.display = 'none'; 
+    }
+    
+}
 
+function playpause(btn){
+    console.log('val', btn.value)
+    console.log( 'inn', btn.innerHTML )
+    if( audio.paused ){
+        audio.play();
+        btn.innerHTML = 'Pause';
+    }else{
+        audio.pause();
+        btn.innerHTML = 'Play';
+    }
+}
 
 audio.src = mfile;
+
+function playFile(nfile){
+    audio.src = nfile;
+}
+
+function loadFile(fl){
+    
+    console.log ( 'mfile',fl.value );
+    playFile(fl.value);
+}
