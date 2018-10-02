@@ -9,31 +9,44 @@ class CAPlay{
 
     createPlayer(){
         var me = this;
-        var css = '<link rel="stylesheet" href="cplayer.css">';
+        var css = '';
 
         this.player = {};
         this.player.div = document.createElement('div');
-        this.player.div.innerHTML = css;
+        this.player.textnode = document.createTextNode(" / ");
         this.player.pslider = document.createElement('input');
+        this.player.seektime = document.createElement('span');
+        this.player.pduration = document.createElement('span');
+        this.player.timediv = document.createElement('div');
+        this.player.volumeDiv = document.createElement('div');
+        this.player.playpause = document.createElement('button');
+        this.player.volume = document.createElement('input');
+
+        this.player.div.classList.add("player"); 
+        this.player.div.innerHTML = css;
+        
         this.player.pslider.setAttribute('type', 'range');
         this.player.pslider.classList.add("seekslider"); 
         this.player.pslider.min = 0;
         this.player.pslider.max = 100;
-        this.player.pslider.step = 0.01;
+        this.player.pslider.step = 0.01;        
+        this.player.seektime.innerHTML = '0.00';        
+        this.player.pduration.innerHTML = '0.00';      
 
-        this.player.seektime = document.createElement('span');
-        this.player.seektime.innerHTML = '0.00';
-        this.player.pduration = document.createElement('span');
-        this.player.pduration.innerHTML = '0.00';
-        this.player.volume = document.createElement('input');
+        this.player.timediv.appendChild(this.player.seektime);
+        this.player.timediv.appendChild(this.player.textnode);
+        this.player.timediv.appendChild(this.player.pduration);
+
+
+        
         this.player.volume.setAttribute('type', 'range');
         this.player.volume.classList.add("volume"); 
-        this.player.volume.setAttribute('orient', 'vertical');
+        // this.player.volume.setAttribute('orient', 'vertical');
         this.player.volume.min = 0;
         this.player.volume.max = 1;
         this.player.volume.step = 0.01;
         this.player.volume.value = 0.5;
-        this.player.playpause = document.createElement('button');
+        
         this.player.playpause.innerHTML = 'Play';
         this.player.playpause.addEventListener('click', function() 
         {
@@ -46,16 +59,31 @@ class CAPlay{
             }
         }, false);
 
-        
-        this.player.textnode = document.createTextNode(" / ");
+        this.player.volumebtn = document.createElement('button');
+        this.player.volumebtn.innerHTML = 'vol';
+        this.player.volumebtn.addEventListener('click', function() 
+        {
+            if(me.player.volume.style.display != 'none'){
+                me.player.volume.style.display = 'none';
+            }else{
+                me.player.volume.style.display = 'block';
+            }
+            
+        }, false);
 
-        this.player.div.appendChild(this.player.pslider);
-        this.player.div.appendChild(this.player.seektime);
-        this.player.div.appendChild(this.player.textnode);
-        this.player.div.appendChild(this.player.pduration);
-        this.player.div.appendChild(this.player.playpause);
-        this.player.div.appendChild(this.player.volume);
+        this.player.volumeDiv.appendChild(this.player.volumebtn);
+        this.player.volumeDiv.appendChild(this.player.volume);
         
+        this.player.div.appendChild(this.player.pslider);
+        this.player.div.appendChild(this.player.timediv);
+        // this.player.div.appendChild(this.player.textnode);
+        // this.player.div.appendChild(this.player.pduration);
+        
+        this.player.div.appendChild(this.player.playpause);
+        // this.player.div.appendChild(this.player.volumebtn);
+        // this.player.div.appendChild(this.player.volume);
+        this.player.div.appendChild(this.player.volumeDiv);
+       
         this.cplayerElemtnt.appendChild(this.player.div);
     }
     
