@@ -1,13 +1,17 @@
 class CAPlay{
     constructor(cplayer){
         this.cplayerElemtnt = cplayer;
-		this.src = this.cplayerElemtnt.getAttribute('src');
+        this.src = this.cplayerElemtnt.getAttribute('src');
+        this.autoplay = this.cplayerElemtnt.getAttribute('autoplay');
 		if(!CAPlay.configured)
 		this.pface = playerFace;		
-        this.audio = new Audio();
+        this.audio = new Audio();        
         this.createPlayer();
         this.init();
         this.playFile( this.src );
+        if(this.autoplay){
+            this.audio.autoplay = true;            
+        }
     }
 
     createPlayer(){
@@ -24,6 +28,10 @@ class CAPlay{
         this.player.volumeDiv = document.createElement('div');
         this.player.playpause = document.createElement('button');
         this.player.volume = document.createElement('input');
+        this.player.volumebtn = document.createElement('button');
+
+        this.player.playpause.classList.add("playerbtn");
+        this.player.volumebtn.classList.add("playerbtn");
 
         this.player.div.classList.add("player"); 
         this.player.div.innerHTML = css;
@@ -40,8 +48,6 @@ class CAPlay{
         this.player.timediv.appendChild(this.player.seektime);
         this.player.timediv.appendChild(this.player.textnode);
         this.player.timediv.appendChild(this.player.pduration);
-
-
         
         this.player.volume.setAttribute('type', 'range');
         this.player.volume.classList.add("volume"); 
@@ -51,7 +57,7 @@ class CAPlay{
         this.player.volume.step = 0.01;
         this.player.volume.value = 0.5;
         
-        this.player.playpause.innerHTML = 'Play';
+        this.player.playpause.innerHTML = me.pface.play;
         this.player.playpause.addEventListener('click', function() 
         {
             if( me.audio.paused ){
@@ -63,8 +69,8 @@ class CAPlay{
             }
         }, false);
 
-        this.player.volumebtn = document.createElement('button');
-        this.player.volumebtn.innerHTML = 'Mute';
+
+        this.player.volumebtn.innerHTML = me.pface.mute;
         this.player.volumebtn.addEventListener('click', function() 
         {
 			me.audio.muted = !me.audio.muted;
@@ -113,6 +119,16 @@ class CAPlay{
             alert('error loading audio');
         }, false);
 
+        this.audio.onplaying = function() {
+            me.player.playpause.innerHTML = me.pface.pause;
+        };
+
+        this.audio.onended = function() {
+            console.log('ended', me.pface.play );
+            me.player.playpause.innerHTML = me.pface.play;
+        };
+
+
         this.player.pslider.oninput =  function(e) 
         {
             me.audio.currentTime = e.target.value*60;
@@ -130,11 +146,13 @@ class CAPlay{
 }
 
 var playerFace = {
-				play:'Play',
-				pause:'Pause',
-				mute:'Mute',
-				unmute:'Unmute'
-		};
+				play: '<i class="icono-play"></i>',
+				pause: '<i class="icono-pause"></i>',
+				mute: '<i class="icono-volumeHigh"></i>',
+				unmute:'<i class="icono-volumeMute"></i>'
+        };
+
+
 var els = document.getElementsByTagName('cplayer');
 cp = [];
 for(i=0;i<els.length;i++){
