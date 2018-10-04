@@ -1,16 +1,19 @@
 class CAPlay{
     constructor(cplayer){
         this.cplayerElemtnt = cplayer;
+		this.src = this.cplayerElemtnt.getAttribute('src');
+		if(!CAPlay.configured)
+		this.pface = playerFace;		
         this.audio = new Audio();
         this.createPlayer();
         this.init();
-        this.playFile( this.cplayerElemtnt.getAttribute('src') )
+        this.playFile( this.src );
     }
 
     createPlayer(){
         var me = this;
         var css = '';
-
+		
         this.player = {};
         this.player.div = document.createElement('div');
         this.player.textnode = document.createTextNode(" / ");
@@ -32,7 +35,8 @@ class CAPlay{
         this.player.pslider.step = 0.01;        
         this.player.seektime.innerHTML = '0.00';        
         this.player.pduration.innerHTML = '0.00';      
-
+		
+		this.player.timediv.classList.add("divin");
         this.player.timediv.appendChild(this.player.seektime);
         this.player.timediv.appendChild(this.player.textnode);
         this.player.timediv.appendChild(this.player.pduration);
@@ -52,39 +56,36 @@ class CAPlay{
         {
             if( me.audio.paused ){
                 me.audio.play();
-                this.innerHTML = 'Pause';
+                this.innerHTML = me.pface.pause;
             }else{
                 me.audio.pause();
-                this.innerHTML = 'Play';
+                this.innerHTML = me.pface.play;
             }
         }, false);
 
         this.player.volumebtn = document.createElement('button');
-        this.player.volumebtn.innerHTML = 'vol';
+        this.player.volumebtn.innerHTML = 'Mute';
         this.player.volumebtn.addEventListener('click', function() 
         {
-            if(me.player.volume.style.display != 'none'){
-                me.player.volume.style.display = 'none';
+			me.audio.muted = !me.audio.muted;
+            if(me.audio.muted){
+                this.innerHTML = me.pface.unmute;
             }else{
-                me.player.volume.style.display = 'block';
+                this.innerHTML = me.pface.mute;
             }
             
         }, false);
-
+		
+		this.player.volumeDiv.classList.add("divin");
         this.player.volumeDiv.appendChild(this.player.volumebtn);
         this.player.volumeDiv.appendChild(this.player.volume);
         
         this.player.div.appendChild(this.player.pslider);
-        this.player.div.appendChild(this.player.timediv);
-        // this.player.div.appendChild(this.player.textnode);
-        // this.player.div.appendChild(this.player.pduration);
-        
+        this.player.div.appendChild(this.player.timediv);        
         this.player.div.appendChild(this.player.playpause);
-        // this.player.div.appendChild(this.player.volumebtn);
-        // this.player.div.appendChild(this.player.volume);
         this.player.div.appendChild(this.player.volumeDiv);
-       
-        this.cplayerElemtnt.appendChild(this.player.div);
+		this.parentEl = this.cplayerElemtnt.parentNode;
+		this.parentEl.replaceChild(this.player.div, this.cplayerElemtnt);
     }
     
     init(){
@@ -128,6 +129,12 @@ class CAPlay{
     }
 }
 
+var playerFace = {
+				play:'Play',
+				pause:'Pause',
+				mute:'Mute',
+				unmute:'Unmute'
+		};
 var els = document.getElementsByTagName('cplayer');
 cp = [];
 for(i=0;i<els.length;i++){

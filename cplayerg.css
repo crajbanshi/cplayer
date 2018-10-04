@@ -1,6 +1,17 @@
-cplayer{
-    width: 100px;
-  }
+
+  .player{		
+		background-color: antiquewhite;
+		    bottom: 0;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+		}
+		.divin{
+			width: 80px;
+			display: inline;
+			margin: 5px;
+		}
+		
   input[type=range].volume{
       /* -webkit-appearance: slider-vertical; */
       width: 50px;
@@ -12,6 +23,7 @@ input[type=range] {
     -webkit-appearance: none;
     margin: 10px 0;
     width: 100%;
+	background: transparent;
   }
   input[type=range]:focus {
     outline: none;
