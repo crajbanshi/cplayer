@@ -1,3 +1,4 @@
+(function () {
 class CAPlay{
     constructor(cplayer){
         this.cplayerElemtnt = cplayer;
@@ -28,10 +29,10 @@ class CAPlay{
         this.player.volumeDiv = document.createElement('div');
         this.player.playpause = document.createElement('button');
         this.player.volume = document.createElement('input');
-        this.player.volumebtn = document.createElement('button');
+        this.player.mutebtn = document.createElement('button');
 
         this.player.playpause.classList.add("playerbtn");
-        this.player.volumebtn.classList.add("playerbtn");
+        this.player.mutebtn.classList.add("playerbtn");
 
         this.player.div.classList.add("player"); 
         this.player.div.innerHTML = css;
@@ -61,29 +62,21 @@ class CAPlay{
         this.player.playpause.addEventListener('click', function() 
         {
             if( me.audio.paused ){
-                me.audio.play();
-                this.innerHTML = me.pface.pause;
+                me.play(); 
             }else{
-                me.audio.pause();
-                this.innerHTML = me.pface.play;
+                me.pause();
             }
         }, false);
 
 
-        this.player.volumebtn.innerHTML = me.pface.mute;
-        this.player.volumebtn.addEventListener('click', function() 
+        this.player.mutebtn.innerHTML = me.pface.mute;
+        this.player.mutebtn.addEventListener('click', function() 
         {
-			me.audio.muted = !me.audio.muted;
-            if(me.audio.muted){
-                this.innerHTML = me.pface.unmute;
-            }else{
-                this.innerHTML = me.pface.mute;
-            }
-            
+            me.mute();
         }, false);
 		
 		this.player.volumeDiv.classList.add("divin");
-        this.player.volumeDiv.appendChild(this.player.volumebtn);
+        this.player.volumeDiv.appendChild(this.player.mutebtn);
         this.player.volumeDiv.appendChild(this.player.volume);
         
         this.player.div.appendChild(this.player.pslider);
@@ -123,8 +116,12 @@ class CAPlay{
             me.player.playpause.innerHTML = me.pface.pause;
         };
 
+        this.audio.onpause = function() {
+            me.player.playpause.innerHTML = me.pface.play;
+        };
+        
+
         this.audio.onended = function() {
-            console.log('ended', me.pface.play );
             me.player.playpause.innerHTML = me.pface.play;
         };
 
@@ -143,6 +140,25 @@ class CAPlay{
     playFile (nfile){
         this.audio.src = nfile;
     }
+
+    play(){
+        this.audio.play();
+    }
+
+    pause(){
+        this.audio.pause();
+    }
+
+    mute(){
+        this.audio.muted = !this.audio.muted;
+
+            if(this.audio.muted){
+                this.player.mutebtn.innerHTML = this.pface.unmute;
+            }else{
+                this.player.mutebtn.innerHTML = this.pface.mute;
+            }
+
+    }
 }
 
 var playerFace = {
@@ -153,8 +169,12 @@ var playerFace = {
         };
 
 
-var els = document.getElementsByTagName('cplayer');
+var els = Array.from( document.getElementsByTagName('cplayer') );
+var len = els.length ;
 cp = [];
-for(i=0;i<els.length;i++){
-    cp[i] = new CAPlay( els[i] );
-}
+els.forEach(function(element, i) {
+    cp[i] = new CAPlay( element );
+  });
+  
+    // body of the function
+  }());
