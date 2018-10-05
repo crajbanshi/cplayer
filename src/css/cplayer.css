@@ -10,14 +10,18 @@
   outline:none;
 }
 
-
+.artimg{
+  width: 50px;
+}
   .player{		
 		background-color: antiquewhite;
-		/* bottom: 0;
-    position: absolute;
-    width: 100%;
-    left: 0px; */
-		}
+    }
+    .bottomPlayer{
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+      left: 0px;
+    }
 		.divin{
 			/* width: 80px; */
 			display: inline;
@@ -31,9 +35,8 @@
     }
 
 input[type=range] {
-    height: 16px;
     -webkit-appearance: none;
-    margin: 10px 0;
+    margin: 0;
     width: 100%;
 	background: transparent;
   }
