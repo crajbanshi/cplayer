@@ -3,28 +3,44 @@
     <head>
         <title>Play</title>
         <link rel="stylesheet" href="../src/css/cplayer.css">
-		<style>
-		.pd{
-        width: 400px;
-        margin: 50px;
-		}
 		
-		</style>
     </head>
     <body>
 	
-<div class="pd">
+<!-- <div class="pd">
+    <cplayer src="http://localhost:8080/hello.ts" img="https://image.shutterstock.com/image-vector/illustration-lord-shiva-indian-god-450w-384365731.jpg"></cplayer>
+</div> -->
 
-    <cplayer src="https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3" img="https://image.shutterstock.com/image-vector/illustration-lord-shiva-indian-god-450w-384365731.jpg" ></cplayer>
+
+
+
+<div>
+    <h4>Playlist</h4>
+    <button onclick="playNow(playlist[0])">Solo Song</button>
+    <a href="javascript:" onclick="playNow(playlist[1])">Bom bhole Song</a>
 </div>
-
-<div class="pd">
-    
-    <cplayer src="https://www.sample-videos.com/audio/mp3/wave.mp3"></cplayer>
-</div>
-
 
 <a href="video.html">video</a>
-       <script type="text/javascript" src="../src/audio/play.js"></script>	   
+<script type="text/javascript" src="../src/audio/play.js"></script>	  
+<script>
+   
+var playlist = [
+    {
+        src: "http://www.bharatwap.com/upload_file/2983/3142/3145/Hum%20Bhool%20Gaye%20-%20Souten%20Ki%20Beti-(BharatWap.com).mp3",
+        img:'',
+        title: 'Solo Song'
+    },
+    {
+        src: "http://www.bharatwap.com/upload_file/2983/3142/3146/Har%20Dil%20Jo%20Pyar%20Karega-(BharatWap.com).mp3",
+        img:'https://image.shutterstock.com/image-vector/illustration-lord-shiva-indian-god-450w-384365731.jpg',
+        title: 'Bom bhole Song'
+    }
+]
+
+// addpaylist( playlist )
+
+</script>
+
+ 
     </body>
 </html>
