@@ -9,10 +9,15 @@
 
 <div>
     <h4>Playlist</h4>
-    <button onclick="playNow(playlist[0])">Solo Song</button>
-    <a href="javascript:" onclick="playNow(playlist[1])">Bom bhole Song</a>
+    <button onclick="playNow(playlist[0])">Solo Song</button><br/>
+    <a href="javascript:" onclick="playNow(playlist[1])">Bom bhole Song</a><br/>
+    <a href="javascript:" onclick="playNow(playlist[2])">Nazar</a><br/>
+    <a href="javascript:" onclick="playNow(playlist[3])">ek number</a><br/>
+    <a href="javascript:" onclick="playNow(playlist[4])">gulabi</a><br/>
 </div>
 
+
+<br/><br/><br/><br/>
 <a href="video.html">video</a>
 <script type="text/javascript" src="../src/audio/play.js"></script>	  
 <script>
@@ -27,7 +32,22 @@ var playlist = [
         src: "http://www.bharatwap.com/upload_file/2983/3142/3146/Har%20Dil%20Jo%20Pyar%20Karega-(BharatWap.com).mp3",
         img:'https://image.shutterstock.com/image-vector/illustration-lord-shiva-indian-god-450w-384365731.jpg',
         title: 'Bom bhole Song'
-    }
+    },
+    {
+        src: "http://localhost:3000/audio/mp3/NazarNaLagJaaye_STREE.ts",
+        img:'',
+        title: 'nazar Song'
+    },
+    {
+        src: "http://localhost:3000/audio/music/Ek Number(MyMp3Song).ts",
+        img:'',
+        title: 'Ek Number'
+    },
+    {
+        src: "http://localhost:3000/audio/music/Gulabi(MyMp3Song).ts",
+        img:'',
+        title: 'Gulabi'
+    },
 ]
 
 // addpaylist( playlist )
