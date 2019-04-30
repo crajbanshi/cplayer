@@ -19,7 +19,7 @@
 }
 .bottomPlayer{
   bottom: 0;
-  position: absolute;
+  position: fixed;
   width: 99%;
   margin: 0px;
 }
