@@ -7,6 +7,7 @@
     </head>
     <body>
 <a href="video.html">video</a>
+<div> <button onclick="loadXMLDoc()">Update List</button></div>
 <h4>Playlist</h4>  
 <div id="playlist">     
 </div>
@@ -39,7 +40,7 @@ function loadXMLDoc() {
 	  renderList();
     }
   };
-  xhttp.open("GET", "http://192.168.11.170/mp3/", true);
+  xhttp.open("GET", "http://192.168.11.170/cplayer/", true);
   xhttp.send();
 }
 

@@ -40,7 +40,12 @@
 
             this.player.div.classList.add("player", "bottomPlayer");
             this.player.div.innerHTML = css;
-
+			this.player.title = document.createElement('span');
+			this.player.titleMarquee = document.createElement('div');
+			this.player.titleDiv = document.createElement('div');
+			this.player.titleMarquee.classList.add("marquee"); 
+			this.player.title.classList.add("title");
+			this.player.titleDiv.classList.add("titlediv");
             this.player.pslider.setAttribute('type', 'range');
             this.player.pslider.classList.add("seekslider");
             this.player.pslider.min = 0;
@@ -77,6 +82,10 @@
             this.player.mutebtn.addEventListener('click', function () {
                 me.mute();
             }, false);
+			
+			this.player.title.innerHTML = "...";
+			this.player.titleMarquee.appendChild( this.player.title );	
+			this.player.titleDiv.appendChild( this.player.titleMarquee );			
 
             this.player.volumeDiv.classList.add("divin");
             this.player.volumeDiv.appendChild(this.player.mutebtn);
@@ -85,10 +94,14 @@
             this.player.div.appendChild(this.player.pslider);
             this.player.artimgdiv.appendChild(this.player.artimg)
             this.player.div.appendChild(this.player.artimgdiv);
+			this.player.controls.appendChild(this.player.titleDiv);
             this.player.controls.appendChild(this.player.timediv);
             this.player.controls.appendChild(this.player.playpause);
             this.player.controls.appendChild(this.player.volumeDiv);
-
+			
+			
+			
+			
             this.player.div.appendChild(this.player.controls);
 
             this.parentEl = this.cplayerElemtnt.parentNode;
@@ -109,7 +122,6 @@
             this.audio.addEventListener('timeupdate', function () {                
                 me.player.pslider.value = (me.audio.currentTime);
 				var seek = me.timeFormat(me.audio.currentTime);
-				console.log(me.audio.currentTime, seek );
                 me.player.seektime.innerHTML = seek;
 
             }, false);
@@ -150,10 +162,15 @@
             if (img)
                 this.player.artimg.src = img;
         }
+		
+		addTitle(title){
+			this.player.title.innerHTML = title.toString();
+		}
 
         playNow(obj) {
             this.playFile(obj.src);
             this.addImage(obj.img);
+			this.addTitle(obj.title); 
             this.play();
         }
 

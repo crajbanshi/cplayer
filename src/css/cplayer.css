@@ -24,13 +24,21 @@
   margin: 0px;
 }
 .controls{
-  top: 30px;
+  top: 17px;
   position: absolute;
   padding-left: 50px;
 }
 .divin{
 	display: inline;
 	margin: 5px;
+}
+.title{
+	white-space: nowrap;
+}
+.titlediv{
+	height: 15px;
+	width: 300px;
+	overflow: hidden;	
 }
 		
 input[type=range].volume{
@@ -127,4 +135,35 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: #076E00;
 }
+
+
+/* marquee start */
+
+.marquee {
+  height: 10px;
+  width: 200px;
+
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee {
+  display: block;
+  width: 200%;
+  height: 30px;
+  overflow: hidden;
+  animation: marquee 5s linear infinite;
+}
+
+.marquee span {
+  float: left;
+  width: 50%;
+}
+
+@keyframes marquee {
+  0% { left: 0; }
+  100% { left: -100%; }
+}
+/* marquee end */
+
   
