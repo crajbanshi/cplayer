@@ -99,18 +99,17 @@
             var me = this;
             this.audio.addEventListener('loadeddata', function () {
                 me.loaded = true;
-                var duration = me.audio.duration;
-                duration = (duration / 60).toFixed(2);
+                var duration = me.timeFormat( me.audio.duration );                
                 me.player.pduration.innerHTML = duration;
                 me.player.pslider.max = me.audio.duration;
                 me.audio.volume = me.player.volume.value;
             }, false);
 
 
-            this.audio.addEventListener('timeupdate', function () {
-                console.log(me.audio.currentTime);
+            this.audio.addEventListener('timeupdate', function () {                
                 me.player.pslider.value = (me.audio.currentTime);
-                var seek = (me.audio.currentTime / 60).toFixed(2);
+				var seek = me.timeFormat(me.audio.currentTime);
+				console.log(me.audio.currentTime, seek );
                 me.player.seektime.innerHTML = seek;
 
             }, false);
@@ -175,6 +174,20 @@
             }
 
         }
+		
+		timeFormat(timeInSec){
+			var hour = parseInt( timeInSec / (60 * 60 ) );
+			var min = parseInt( timeInSec / 60 );
+			var sec = parseInt( ((timeInSec / 60) - parseInt(timeInSec / 60)  )   * 60 );
+			if(sec.toString().length<=1){
+				sec = "0" + sec;
+			}			
+			timeInSec =  min + ":" + sec ;
+			if(hour > 0){
+				timeInSec = hour + ":" + min + ":" + sec ;
+			}			
+			return timeInSec;
+		}
     }
 
     var playerFace = {
