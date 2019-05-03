@@ -90,20 +90,14 @@
             this.player.volumeDiv.classList.add("divin");
             this.player.volumeDiv.appendChild(this.player.mutebtn);
             this.player.volumeDiv.appendChild(this.player.volume);
-
             this.player.div.appendChild(this.player.pslider);
             this.player.artimgdiv.appendChild(this.player.artimg)
             this.player.div.appendChild(this.player.artimgdiv);
 			this.player.controls.appendChild(this.player.titleDiv);
             this.player.controls.appendChild(this.player.timediv);
             this.player.controls.appendChild(this.player.playpause);
-            this.player.controls.appendChild(this.player.volumeDiv);
-			
-			
-			
-			
+            this.player.controls.appendChild(this.player.volumeDiv);			
             this.player.div.appendChild(this.player.controls);
-
             this.parentEl = this.cplayerElemtnt.parentNode;
             this.parentEl.replaceChild(this.player.div, this.cplayerElemtnt);
         }
@@ -127,7 +121,8 @@
             }, false);
 
             this.audio.addEventListener('error', function () {
-                alert('error loading audio');
+                console.log('error loading audio');
+				me.addTitle( 'error loading audio' );
             }, false);
 
             this.audio.onplaying = function () {
@@ -156,11 +151,27 @@
         playFile(nfile) {
             this.audio.src = nfile;
         }
-
+		
+		imageNotFound(){
+			this.loadError = 1;			
+		}
+		
+		imageFound(){
+			this.loadError = 0;		
+		}
+		
         addImage(img) {
-            this.player.artimg.src = this.artimg;
-            if (img)
-                this.player.artimg.src = img;
+			var me = this;
+			this.player.artimg.src = this.artimg;
+			var tester=new Image();
+			tester.onload=function(){
+				me.player.artimg.src = img;
+			}
+			tester.onerror=function(){
+				me.player.artimg.src = me.artimg;
+			};
+			tester.src=img;		
+                
         }
 		
 		addTitle(title){

@@ -1,5 +1,9 @@
 <?php
-define("SERVER_URL", 'http://192.168.11.170/cplayer/');
+//define("SERVER_URL", 'http://192.168.11.170/cplayer/');
+
+define("SERVER_URL", 'http://192.168.11.170:3000/'); 
+define("SONGDIR", "../../../node\pw-streem\upload");
+
 function is_image($path)
 {
 	$a = getimagesize($path);
@@ -41,9 +45,10 @@ function getFileList($dirName){
 			if(is_image( $dirName ."/". $fileName )){
 				continue;
 			}
+			$item = !empty(SONGDIR) ?  SERVER_URL . 'audio' . str_replace(SONGDIR, '', $dirName ) ."/". str_replace('mp3', 'ts', $fileName) : SERVER_URL . $dirName ."/". $fileName;
 			$lst[] = [
-			'src'=> SERVER_URL . $dirName ."/". $fileName,
-			'img' => SERVER_URL . $img,
+			'src'=> $item,
+			'img' => SERVER_URL . 'image' . str_replace(SONGDIR, '', $img ) ,
 			'title' => $fileName
 			];
 		}
@@ -53,7 +58,8 @@ function getFileList($dirName){
 }
 
 
-$baseDir = "upload";
+$baseDir = SONGDIR ?? "upload";
+
 
 $list = [];
 
