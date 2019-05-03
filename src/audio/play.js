@@ -18,6 +18,13 @@
         createPlayer() {
             var me = this;
             var css = '';
+			var link = document.createElement('link'); 
+			link.rel = 'stylesheet';
+			link.type = 'text/css'; 
+			link.href = '../src/css/cplayer.css';
+			var head = document.getElementsByTagName('HEAD')[0];
+			head.appendChild(link); 
+		
             this.player = {};
             this.player.div = document.createElement('div');
             this.player.textnode = document.createTextNode(" / ");

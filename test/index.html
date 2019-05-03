@@ -2,7 +2,6 @@
 <html>
     <head>
         <title>Play</title>
-        <link rel="stylesheet" href="http://localhost/cplayer/src/css/cplayer.css">
 		
     </head>
     <body>
@@ -24,7 +23,6 @@ function renderList(){
 		html += '<div><img src="'+ playlist[item].list[0].img +'" width="80px"><h4>' + playlist[item].album + '</h4></div>';
 		Object.keys(playlist[item].list).forEach(function (listNum) {
 		var list = playlist[item].list[listNum];
-		console.log( list );
 			html += '<p><a href="javascript:" onclick="playNow( playlist['+ item +'].list['+listNum+'] )">'+ list.title+'</a></p>';
 		});
 	});
