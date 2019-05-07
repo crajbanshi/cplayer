@@ -1,51 +1,72 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Play</title>
-		
-    </head>
-    <body>
-<a href="video.html">video</a>
-<div> <button onclick="loadXMLDoc()">Update List</button></div>
-<h4>Playlist</h4>  
-<div id="playlist">     
-</div>
-<div style="height: 100px"></div>
-<script type="text/javascript" src="http://localhost/cplayer/src/audio/play.js"></script>	
 
-<script>
- playlist = [];
-function renderList(){
-	var html = '';
-	
-	Object.keys(playlist).forEach(function (item) {
-	
-		html += '<div><img src="'+ playlist[item].list[0].img +'" width="80px"><h4>' + playlist[item].album + '</h4></div>';
-		Object.keys(playlist[item].list).forEach(function (listNum) {
-		var list = playlist[item].list[listNum];
-			html += '<p><a href="javascript:" onclick="playNow( playlist['+ item +'].list['+listNum+'] )">'+ list.title+'</a></p>';
-		});
-	});
-	document.getElementById('playlist').innerHTML = html;
-}
+<head>
+    <title>Play</title>
 
-function loadXMLDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      // document.getElementById("demo").innerHTML =  this.responseText;
-	  playlist = JSON.parse(this.responseText);
-	  renderList();
-    }
-  };
-  xhttp.open("GET", "http://192.168.11.170/cplayer/", true);
-  xhttp.send();
-}
+</head>
 
-loadXMLDoc();
+<body>
+    <a href="video.html">video</a>
+    <div> <button onclick="loadAlbum()">Update List</button></div>
+
+    <div id="albumlist"> </div>
+
+    <h4>Playlist</h4>
+    <div id="playlist">
+    </div>
+    <div style="height: 100px"></div>
+    <script type="text/javascript" src="http://localhost/cplayer/src/audio/play.js"></script>
+
+    <script>
+        playlist = [];
+        albums = [];
+        function renderList(res) {
+            var html = '';
+            playlist = res;
+            Object.keys(playlist).forEach(function (item) {
+                console.log(playlist[item])
+                var list = playlist[item];
+                html += '<p><a href="javascript:" onclick="playNow( playlist[' + item + '] )">' + list.title + '</a></p>';
+            });
+            document.getElementById('playlist').innerHTML = html;
+        }
 
 
-</script>
- 
-    </body>
+        function renderAlbum(res) {
+            var html = '';
+            albums = res;
+            Object.keys(albums).forEach(function (item) {
+                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href"javascript:" ><img src="' + albums[item].albumArt + '" width="80px"><strong>' + albums[item].album + '</strong></div>';
+
+            });
+            document.getElementById('albumlist').innerHTML = html;
+        }
+
+        function loadXMLDoc(url, cb) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    cb(JSON.parse(this.responseText));
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        function openAlbum(albm) {
+            alert(albm);
+            loadXMLDoc("http://localhost:3000/album/" + albm, renderList);
+        }
+
+        function loadAlbum() {
+            loadXMLDoc("http://localhost:3000/albums/", renderAlbum);
+        }
+
+        loadAlbum();
+
+    </script>
+
+</body>
+
 </html>
