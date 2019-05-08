@@ -37,7 +37,7 @@
             var html = '';
             albums = res;
             Object.keys(albums).forEach(function (item) {
-                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href"javascript:" ><img src="' + albums[item].albumArt + '" width="80px"><strong>' + albums[item].album + '</strong></div>';
+                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href"javascript:" ><img src="' + albums[item].albumArt + '" width="80px" onerror="addart(this)"><strong>' + albums[item].album + '</strong></div>';
 
             });
             document.getElementById('albumlist').innerHTML = html;
@@ -54,8 +54,10 @@
             xhttp.send();
         }
 
+        function addart(img){           
+            img.src = albumArt();
+        }
         function openAlbum(albm) {
-            alert(albm);
             loadXMLDoc("http://localhost:3000/album/" + albm, renderList);
         }
 
