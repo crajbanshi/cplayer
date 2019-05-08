@@ -21,7 +21,7 @@
 			var link = document.createElement('link'); 
 			link.rel = 'stylesheet';
 			link.type = 'text/css'; 
-			link.href = '../src/css/cplayer.css';
+			link.href = 'src/css/cplayer.css';
 			var head = document.getElementsByTagName('HEAD')[0];
 			head.appendChild(link); 
 		
@@ -183,6 +183,7 @@
 		
 		addTitle(title){
 			this.player.title.innerHTML = title.toString();
+			document.title = title.toString() + " - " + document.title;
 		}
 
         playNow(obj) {

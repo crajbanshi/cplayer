@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Play</title>
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+.listbar {
+overflow-y: scroll;
+    position:fixed !important;
+width: 250px;
+top:55px;
+bottom: 90px;
+left:0;
+    padding-right: 50px;
+    border: 1px solid;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="container-fluid">  
+<nav class="navbar navbar-dark bg-dark">
+  <div> <button onclick="loadAlbum()" class="btn">Update List</button></div>
+</nav>
+<!-- A grey horizontal navbar that becomes vertical on small screens -->
+  
+    
+<div class="row">
+    <div class="col col-lg-3" >
+    <div id="albumlist" class="listbar"> </div>
+</div>
+<div class="col col-lg-4">
+    <h4>Playlist</h4>
+    <div id="playlist">
+    </div>
+    <div style="height: 100px"></div>
+ </div>
+  </div>
+</div>
+    <script>
+        playlist = [];
+        albums = [];
+        function renderList(res) {
+            var html = '';
+            playlist = res;
+            Object.keys(playlist).forEach(function (item) {
+                console.log(playlist[item])
+                var list = playlist[item];
+                html += '<p><a href="javascript:" onclick="playNow( playlist[' + item + '] )">' + list.title + '</a></p>';
+            });
+            document.getElementById('playlist').innerHTML = html;
+        }
+
+
+        function renderAlbum(res) {
+            var html = '';
+            albums = res;
+            Object.keys(albums).forEach(function (item) {
+                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href"javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm"	><strong>' + albums[item].album + '</strong></div>';
+
+            });
+            document.getElementById('albumlist').innerHTML = html;
+        }
+
+        function loadXMLDoc(url, cb) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    cb(JSON.parse(this.responseText));
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        function openAlbum(albm) {
+            loadXMLDoc("http://192.168.11.170:3000/album/" + albm, renderList);
+        }
+
+        function loadAlbum() {
+            loadXMLDoc("http://192.168.11.170:3000/albums/", renderAlbum);
+        }
+
+        loadAlbum();		
+
+    </script>
+	
+	 <!-- Optional JavaScript -->
+	<script type="text/javascript" src="src/audio/play.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
