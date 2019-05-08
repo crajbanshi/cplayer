@@ -41,15 +41,18 @@ left:0;
   </div>
 </div>
     <script>
+        const hostname = window.location.hostname;
         playlist = [];
         albums = [];
         function renderList(res) {
             var html = '';
             playlist = res;
-            Object.keys(playlist).forEach(function (item) {
-                console.log(playlist[item])
-                var list = playlist[item];
-                html += '<p><a href="javascript:" onclick="playNow( playlist[' + item + '] )">' + list.title + '</a></p>';
+
+            html = '<div><img src="' + playlist.albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + playlist.album + '</strong></div>'
+            Object.keys(playlist.list).forEach(function (item) {
+                
+                var list = playlist.list[item];
+                html += '<p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list[' + item + '] )"> + </a>] <a href="javascript:" onclick="cplayer.playNow( playlist.list[' + item + '] )">' + list.title + '</a></p>';
             });
             document.getElementById('playlist').innerHTML = html;
         }
@@ -59,7 +62,7 @@ left:0;
             var html = '';
             albums = res;
             Object.keys(albums).forEach(function (item) {
-                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href"javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm"	><strong>' + albums[item].album + '</strong></div>';
+                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href="javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + albums[item].album + '</strong></a></div>';
 
             });
             document.getElementById('albumlist').innerHTML = html;
@@ -76,12 +79,15 @@ left:0;
             xhttp.send();
         }
 
+        function addart(img){           
+            img.src = albumArt();
+        }
         function openAlbum(albm) {
-            loadXMLDoc("http://192.168.11.170:3000/album/" + albm, renderList);
+            loadXMLDoc("http://" +hostname+":3000/album/" + albm, renderList);
         }
 
         function loadAlbum() {
-            loadXMLDoc("http://192.168.11.170:3000/albums/", renderAlbum);
+            loadXMLDoc("http://"+ hostname +":3000/albums/", renderAlbum);
         }
 
         loadAlbum();		
