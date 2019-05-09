@@ -39,6 +39,7 @@
             });
 
             localStorage.setItem(window.location.hostname + "playlist", JSON.stringify( this.playlist ));
+            this.displayPlayList(); 
             if(!this.audio.src )
                 this.playNow( this.playlist[0])
         }
@@ -50,6 +51,7 @@
         clearPlaylist(){
             localStorage.setItem(window.location.hostname + "playlist", ''); 
             this.playlist = [];
+            this.displayPlayList();
         }
 
         createPlayer() {
@@ -167,7 +169,10 @@
 
         init() {
             var me = this;
-            this.playlist = [];           
+            this.playlist = [];   
+            
+            this.listElement = document.createElement('div');
+
             if (localStorage.getItem(window.location.hostname + "playlist") ){
                 this.playlist = JSON.parse( localStorage.getItem(window.location.hostname + "playlist"));
             }
@@ -254,7 +259,12 @@
             this.play();
             this.addToPlayList( obj );
             this.nowPlayingIndex = this.playlist.findIndex(el => el.src === obj.src );
-            console.log( 'this.nowPlayingIndex', this.nowPlayingIndex  )                
+            console.log( 'this.nowPlayingIndex', this.nowPlayingIndex  )
+            this.displayPlayList();                
+        }
+
+        playNowIndex(index){
+            this.playNow(this.playlist[index]);
         }
 
         play() {
@@ -300,6 +310,35 @@
             }
             return timeInSec;
         }
+
+        settings(options){
+            if(options.playlist){
+                this.listElement =  options.playlist ;
+            }
+        }
+
+        displayPlayList(){
+            var html = '<div><button onclick="cplayer.clearPlaylist()" class="btn btn-outline-dark">Clear</button></div><table class="table">';
+            this.playlist.forEach((item, index)=>{
+                // const found = this.playlist.findIndex(el => el.src === item.src );
+                html += '<tr>' 
+                + '<td width="20px">'
+                + '<img width="20px" height="20px" src="'+item.img+'" onerror="this.src = albumArt();"/>'
+                + '</td>'
+                + '<td>'
+                + '<a href="javascript:" onclick="cplayer.playNowIndex('+index+')">' 
+                + item.title + '</a>'
+                + '</td>'
+                + '<td width="20px">'
+                + '</td>'
+                +'</tr>';
+                    
+            });
+            html += '</table>';
+
+            document.getElementById( this.listElement ).innerHTML = html;
+
+        }
     }
 
     var playerFace = {
@@ -321,14 +360,22 @@
     }
     cp = CAPlay.singlePlayer();
 
-
-
 }());
 
 cplayer = {}
 
+cplayer.settings = function (options){
+    console.log('options', options);
+    cp.settings(options);
+    cp.displayPlayList();
+}
+
 cplayer.playNow = function (obj) {
     cp.playNow(obj)
+}
+
+cplayer.playNowIndex = function(index){
+    cp.playNowIndex(index);
 }
 
 cplayer.addToPlayList = function (obj) {

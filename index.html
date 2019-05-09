@@ -3,44 +3,53 @@
 
 <head>
     <title>Play</title>
-	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<style>
-.listbar {
-overflow-y: scroll;
-    position:fixed !important;
-width: 250px;
-top:55px;
-bottom: 90px;
-left:0;
-    padding-right: 50px;
-    border: 1px solid;
-	}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        .listbar, .playlist {
+            overflow-y: scroll;
+            position:fixed !important;
+            width: 250px;
+            top:55px;
+            bottom: 90px;            
+            padding-right: 50px;
+            border: 1px solid;
+        }
+        .listbar{
+            left:0;
+        }
+        .playlist{
+            right: 0;
+        }
+
 </style>
 
 </head>
 
 <body>
-<nav class="navbar navbar-dark bg-dark sticky-top">
-  <div> <button onclick="loadAlbum()" class="btn">Update List</button></div>
-</nav>
-<div class="container-fluid">  
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <div> <button onclick="loadAlbum()" class="btn">Update List</button></div>
+    </nav>
+    <div class="container-fluid">
 
-<!-- A grey horizontal navbar that becomes vertical on small screens -->
-  
-    
-<div class="row">
-    <div class="col col-lg-3" >
-    <div id="albumlist" class="listbar"> </div>
-</div>
-<div class="col col-lg-4">
-    <h4>Playlist</h4>
-    <div id="playlist">
+        <!-- A grey horizontal navbar that becomes vertical on small screens -->
+
+
+        <div class="row">
+            <div class="col col-lg-3">
+                <div id="albumlist" class="listbar"> </div>
+            </div>
+            <div class="col col-lg-4">
+                <div id="content">
+                </div>
+                
+            </div>
+            <div class="col col-lg-3">
+                <div id="playlist" class="playlist"> </div>
+            </div>
+        </div>
     </div>
-    <div style="height: 100px"></div>
- </div>
-  </div>
-</div>
     <script>
         const hostname = window.location.hostname;
         playlist = [];
@@ -51,11 +60,11 @@ left:0;
 
             html = '<div><img src="' + playlist.albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + playlist.album + '</strong> <p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list )"> + All </a>]</p></div>'
             Object.keys(playlist.list).forEach(function (item) {
-                
+
                 var list = playlist.list[item];
                 html += '<p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list[' + item + '] )"> + </a>] <a href="javascript:" onclick="cplayer.playNow( playlist.list[' + item + '] )">' + list.title + '</a></p>';
             });
-            document.getElementById('playlist').innerHTML = html;
+            document.getElementById('content').innerHTML = html;
         }
 
 
@@ -63,7 +72,7 @@ left:0;
             var html = '';
             albums = res;
             Object.keys(albums).forEach(function (item) {
-                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href="javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + albums[item].album + '</strong></a></div>';
+                html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href="javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"><strong>' + albums[item].album + '</strong></a></div>';
 
             });
             document.getElementById('albumlist').innerHTML = html;
@@ -80,27 +89,34 @@ left:0;
             xhttp.send();
         }
 
-        function addart(img){           
+        function addart(img) {
             img.src = albumArt();
         }
         function openAlbum(albm) {
-            loadXMLDoc("http://" +hostname+":3000/album/" + albm, renderList);
+            loadXMLDoc("http://" + hostname + ":3000/album/" + albm, renderList);
         }
 
         function loadAlbum() {
-            loadXMLDoc("http://"+ hostname +":3000/albums/", renderAlbum);
+            loadXMLDoc("http://" + hostname + ":3000/albums/", renderAlbum);
         }
-
-        loadAlbum();		
+        
+        loadAlbum();
 
     </script>
-	
-	 <!-- Optional JavaScript -->
-	<script type="text/javascript" src="src/audio/play.js"></script>
+
+    <!-- Optional JavaScript -->
+    <script type="text/javascript" src="src/audio/play.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+        <script>
+        cplayer.settings({playlist:'playlist'})
+        </script>
 
 
 </body>
