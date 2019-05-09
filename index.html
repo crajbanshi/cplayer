@@ -21,10 +21,11 @@ left:0;
 </head>
 
 <body>
-<div class="container-fluid">  
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark sticky-top">
   <div> <button onclick="loadAlbum()" class="btn">Update List</button></div>
 </nav>
+<div class="container-fluid">  
+
 <!-- A grey horizontal navbar that becomes vertical on small screens -->
   
     
@@ -48,7 +49,7 @@ left:0;
             var html = '';
             playlist = res;
 
-            html = '<div><img src="' + playlist.albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + playlist.album + '</strong></div>'
+            html = '<div><img src="' + playlist.albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + playlist.album + '</strong> <p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list )"> + All </a>]</p></div>'
             Object.keys(playlist.list).forEach(function (item) {
                 
                 var list = playlist.list[item];

@@ -203,6 +203,7 @@
 
             this.audio.onended = function () {
                 me.player.playpause.innerHTML = me.pface.play;
+				me.next();
             };
 
 
