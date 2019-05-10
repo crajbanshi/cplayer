@@ -70,8 +70,10 @@
             this.player.pslider = document.createElement('input');
             this.player.seektime = document.createElement('span');
             this.player.pduration = document.createElement('span');
+            this.player.sliderdiv = document.createElement('div');
             this.player.timediv = document.createElement('div');
             this.player.controls = document.createElement('div');
+            this.player.controlBox = document.createElement('div');
             this.player.volumeDiv = document.createElement('div');
             this.player.prev = document.createElement('button');
             this.player.playpause = document.createElement('button');
@@ -80,6 +82,7 @@
             this.player.mutebtn = document.createElement('button');
             this.player.artimg = document.createElement('img');
             this.player.artimg.src = this.artimg;
+            this.player.controlBox.classList.add("controlBox");
             this.player.controls.classList.add("controls");
             this.player.artimgdiv = document.createElement('div');
             this.player.artimg.classList.add("artimg");
@@ -87,6 +90,7 @@
             this.player.prev.classList.add("playerbtn");
             this.player.next.classList.add("playerbtn");
             this.player.mutebtn.classList.add("playerbtn");
+            this.player.sliderdiv.classList.add("slider");
 
             this.player.div.classList.add("player", "bottomPlayer");
             this.player.div.innerHTML = css;
@@ -153,15 +157,17 @@
             this.player.volumeDiv.classList.add("divin");
             this.player.volumeDiv.appendChild(this.player.mutebtn);
             this.player.volumeDiv.appendChild(this.player.volume);
-            this.player.div.appendChild(this.player.pslider);
+            this.player.sliderdiv.appendChild(this.player.pslider);
+            this.player.div.appendChild(this.player.sliderdiv);
             this.player.artimgdiv.appendChild(this.player.artimg)
-            this.player.div.appendChild(this.player.artimgdiv);
+            this.player.div.appendChild(this.player.artimgdiv);            
+            this.player.controlBox.appendChild(this.player.timediv);
+            this.player.controlBox.appendChild(this.player.prev);
+            this.player.controlBox.appendChild(this.player.playpause);
+            this.player.controlBox.appendChild(this.player.next);
+            this.player.controlBox.appendChild(this.player.volumeDiv);
             this.player.controls.appendChild(this.player.titleDiv);
-            this.player.controls.appendChild(this.player.timediv);
-            this.player.controls.appendChild(this.player.prev);
-            this.player.controls.appendChild(this.player.playpause);
-            this.player.controls.appendChild(this.player.next);
-            this.player.controls.appendChild(this.player.volumeDiv);
+            this.player.controls.appendChild(this.player.controlBox);
             this.player.div.appendChild(this.player.controls);
             this.parentEl = this.cplayerElemtnt.parentNode;
             this.parentEl.replaceChild(this.player.div, this.cplayerElemtnt);
