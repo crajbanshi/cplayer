@@ -333,23 +333,27 @@
         }
 
         displayPlayList() {
-            var html = '<div><button onclick="'+ this.clearButton.onclick +'()" class="'+'+ this.clearButton.onclick() +'+'">Clear</button></div><table class="table">';
-            this.playlist.forEach((item, index) => {
-                // const found = this.playlist.findIndex(el => el.src === item.src );
+            var html = '<div><button onclick="'+ this.clearButton.onclick +'()" class="'
+            + this.clearButton.class +'">Clear</button></div><div class="playlistswert"><table class="table">';
+            this.playlist.forEach((item, index) => { 
+                var nowPlaying = ''
+                if(index == this.nowPlayingIndex){
+                    nowPlaying = '<span><i class="icono-play"></i></span>';
+                }
                 html += '<tr>'
-                    + '<td width="20px">'
-                    + '<img width="20px" height="20px" src="' + item.img + '" onerror="this.src = albumArt();"/>'
+                    + '<td width="40px">'
+                    + '<span class="playlistImg"> <img src="' + item.img + '" onerror="this.src = albumArt();"/>'+
+                     nowPlaying
+                    +'</span>'
                     + '</td>'
                     + '<td>'
                     + '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">'
                     + item.title + '</a>'
                     + '</td>'
-                    + '<td width="20px">'
-                    + '</td>'
                     + '</tr>';
 
             });
-            html += '</table>';
+            html += '</table></div>';
 
             document.getElementById(this.listElement).innerHTML = html;
 

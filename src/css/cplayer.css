@@ -90,6 +90,36 @@
   0% { left: 0; }
   100% { left: -100%; }
 }
+
+.playlistswert{ 
+    padding: 0rem;
+    overflow-y: scroll;
+    position:fixed !important;
+    width: 250px;
+    top:80px;
+    bottom: 90px; 
+    border: 1px solid;
+}
+
+.playlistswert .table td, .playlistswert .table th {
+  padding: 0rem;
+  height: 40px;
+}
+
+.playlistImg, .playlistImg>img, .playlistImg>span{  
+    position: absolute;
+    width: 40px;
+    height: 40px;
+}
+ .playlistImg>img{  
+  z-index: 1;
+}
+
+.playlistImg>span{  
+  z-index: 10;
+  background: antiquewhite;
+  opacity: 0.5;
+}
 /* marquee end */
 
   
