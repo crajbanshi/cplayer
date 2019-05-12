@@ -90,7 +90,7 @@
         }
 
         function addart(img) {
-            img.src = albumArt();
+            img.src = cplayer.albumArt();
         }
         function openAlbum(albm) {
             loadXMLDoc("http://" + hostname + ":3000/album/" + albm, renderList);
@@ -115,7 +115,7 @@
         crossorigin="anonymous"></script>
 
         <script>
-        cplayer.settings({playlist:'playlist'})
+        cplayer.settings({playlist:'playlist', clearButton: {class:'btn btn-link'} })
         </script>
 
 

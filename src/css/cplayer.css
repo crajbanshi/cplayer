@@ -1,5 +1,10 @@
+/*!
+ * cplayer v0.1.0
+ * Copyright 2019 Chanchal Rajbanshi (https://github.com/crajbanshi/cplayer)
+ * Licensed under MIT
+ */
+ 
 @import "icons/icono.min.css";
-/* https://saeedalipoor.github.io/icono/ */
 
 .bottomPlayer:focus{
   outline: none;
