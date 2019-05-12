@@ -10,8 +10,8 @@
 	-moz-border-radius:50%;
 	-webkit-border-radius: 50%;
 	border-radius:50%;
-  border: none;
-  outline:none;
+  border: none !important;
+  outline:none !important;
   color: aliceblue;
 }
 
