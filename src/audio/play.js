@@ -10,7 +10,7 @@
             var cplayer = document.createElement('cplayer');
             document.body.appendChild(cplayer);
             this.cplayerElemtnt = cplayer;
-            this.clearButton = {class:'', onclick: 'cplayer.clearPlaylist' }
+            this.clearButton = { class: '', onclick: 'cplayer.clearPlaylist' }
             if (!this.artimg) {
                 this.artimg = albumArt()
             }
@@ -56,6 +56,7 @@
             localStorage.setItem(window.location.hostname + "playlist", '');
             this.playlist = [];
             this.displayPlayList();
+            this.nowPlayingIndex=-1;
         }
 
         loadCSS() {
@@ -182,6 +183,7 @@
 
         init() {
             var me = this;
+            this.pageTitle = document.title
             this.playlist = [];
 
             this.listElement = document.createElement('div');
@@ -262,7 +264,7 @@
 
         addTitle(title) {
             this.player.title.innerHTML = title.toString();
-            document.title = title.toString() + " - " + document.title;
+            document.title = title.toString() + " - " + this.pageTitle;
         }
 
         playNow(obj) {
@@ -323,6 +325,13 @@
             return timeInSec;
         }
 
+        volumeShow(toggle) {
+            if (toggle) {
+                this.player.volume.value = 1;
+                this.player.volume.style.display = 'none';
+            }
+        }
+
         settings(options) {
             if (options.playlist) {
                 this.listElement = options.playlist;
@@ -330,21 +339,29 @@
             if (options.clearButton && options.clearButton.class) {
                 this.clearButton.class = options.clearButton.class;
             }
+            if (options.volume) {
+                this.player.volume.value = options.volume / 100;
+            }
+            this.volumeShow(options.volumeHide);
+
+
         }
 
         displayPlayList() {
-            var html = '<div><button onclick="'+ this.clearButton.onclick +'()" class="'
-            + this.clearButton.class +'">Clear</button></div><div class="playlistswert"><table class="table">';
-            this.playlist.forEach((item, index) => { 
+            var html = '<div class="btnContainer"><a onclick="' + this.clearButton.onclick + '()" class="'
+                + this.clearButton.class + '">Clear</a></div><div class="playlistswert"><table class="table">';
+            this.playlist.forEach((item, index) => {
                 var nowPlaying = ''
-                if(index == this.nowPlayingIndex){
-                    nowPlaying = '<span><i class="icono-play"></i></span>';
+                if (index == this.nowPlayingIndex) {
+                    nowPlaying = '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' +'<span class="playlistSpan"><i class="icono-play"></i></span>';
+                }else{
+                    nowPlaying = '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">' + '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' + '</a>';
                 }
                 html += '<tr>'
                     + '<td width="40px">'
-                    + '<span class="playlistImg"> <img src="' + item.img + '" onerror="this.src = albumArt();"/>'+
-                     nowPlaying
-                    +'</span>'
+                    + '<span class="playlistImg">'                    
+                    + nowPlaying
+                    + '</span>'
                     + '</td>'
                     + '<td>'
                     + '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">'
@@ -384,7 +401,7 @@
 cplayer = {}
 
 cplayer.settings = function (options) {
-    console.log('options', options );
+    console.log('options', options);
     cp.settings(options);
     cp.displayPlayList();
 }
