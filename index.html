@@ -4,25 +4,27 @@
 <head>
     <title>Play</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        .listbar, .playlist {
+        .listbar,
+        .playlist {
             overflow-y: scroll;
-            position:fixed !important;
+            position: fixed !important;
             width: 250px;
-            top:45px;
-            bottom: 90px; 
+            top: 45px;
+            bottom: 90px;
             border: 1px solid;
         }
-        .listbar{
-            left:0;
-        }
-        .playlist{
-            right: 0;
+
+        .listbar {
+            left: 0;
         }
 
-</style>
+        .playlist {
+            right: 0;
+        }
+    </style>
 
 </head>
 
@@ -42,7 +44,7 @@
             <div class="col col-lg-4">
                 <div id="content">
                 </div>
-                
+
             </div>
             <div class="col col-lg-3">
                 <div id="playlist" class="playlist"> </div>
@@ -92,30 +94,43 @@
             img.src = cplayer.albumArt();
         }
         function openAlbum(albm) {
-            loadXMLDoc("http://" + hostname + ":3000/album/" + albm, renderList);
+            loadXMLDoc(albm, renderList);
         }
 
         function loadAlbum() {
             loadXMLDoc("http://" + hostname + ":3000/albums/", renderAlbum);
         }
-        
+
         loadAlbum();
+
+        // renderAlbum
+
+
+        let html = '<div><a onclick="openAlbum( \'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3\' )" href="javascript:" >'
+            + '<img src="" width="80px" class="rounded-sm" onerror="addart(this)"><strong>https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3</strong></a></div>';
+        document.getElementById('albumlist').innerHTML = html;
+
+
+
 
     </script>
 
     <!-- Optional JavaScript -->
-    <script type="text/javascript" src="src/audio/play.js"></script>
+    <script type="text/javascript" src="dist/js/cplayer.min.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-        <script>
-        cplayer.settings({playlist:'playlist', clearButton: {class:'btn btn-link'} })
-        </script>
+    <script>
+        cplayer.settings({ playlist: 'playlist', clearButton: { class: 'btn btn-link' } })
+    </script>
 
 
 </body>

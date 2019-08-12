@@ -56,14 +56,14 @@
             localStorage.setItem(window.location.hostname + "playlist", '');
             this.playlist = [];
             this.displayPlayList();
-            this.nowPlayingIndex=-1;
+            this.nowPlayingIndex = -1;
         }
 
         loadCSS() {
             var link = document.createElement('link');
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = window.location.href + 'src/css/cplayer.css';
+            link.href = window.location.href + 'dist/css/cplayer.min.css';
             console.info(link.href);
             var head = document.getElementsByTagName('HEAD')[0];
             head.appendChild(link);
@@ -353,13 +353,13 @@
             this.playlist.forEach((item, index) => {
                 var nowPlaying = ''
                 if (index == this.nowPlayingIndex) {
-                    nowPlaying = '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' +'<span class="playlistSpan"><i class="icono-play"></i></span>';
-                }else{
+                    nowPlaying = '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' + '<span class="playlistSpan"><i class="icono-play"></i></span>';
+                } else {
                     nowPlaying = '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">' + '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' + '</a>';
                 }
                 html += '<tr>'
                     + '<td width="40px">'
-                    + '<span class="playlistImg">'                    
+                    + '<span class="playlistImg">'
                     + nowPlaying
                     + '</span>'
                     + '</td>'
