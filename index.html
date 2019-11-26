@@ -4,8 +4,10 @@
 <head>
     <title>Play</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/cplayer/src/css/cplayer.css" crossorigin="anonymous">
+
+
     <style>
         .listbar,
         .playlist {
@@ -16,11 +18,11 @@
             bottom: 90px;
             border: 1px solid;
         }
-
+        
         .listbar {
             left: 0;
         }
-
+        
         .playlist {
             right: 0;
         }
@@ -55,12 +57,14 @@
         const hostname = window.location.hostname;
         playlist = [];
         albums = [];
+
         function renderList(res) {
+            console.log('res', res);
             var html = '';
             playlist = res;
 
             html = '<div><img src="' + playlist.albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"	><strong>' + playlist.album + '</strong> <p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list )"> + All </a>]</p></div>'
-            Object.keys(playlist.list).forEach(function (item) {
+            Object.keys(playlist.list).forEach(function(item) {
 
                 var list = playlist.list[item];
                 html += '<p>[<a href="javascript:" onclick="cplayer.addToPlayList( playlist.list[' + item + '] )"> + </a>] <a href="javascript:" onclick="cplayer.playNow( playlist.list[' + item + '] )">' + list.title + '</a></p>';
@@ -72,7 +76,7 @@
         function renderAlbum(res) {
             var html = '';
             albums = res;
-            Object.keys(albums).forEach(function (item) {
+            Object.keys(albums).forEach(function(item) {
                 html += '<div><a onclick="openAlbum( albums[' + item + '].album )" href="javascript:" ><img src="' + albums[item].albumArt + '" width="80px" class="rounded-sm" onerror="addart(this)"><strong>' + albums[item].album + '</strong></a></div>';
 
             });
@@ -81,8 +85,10 @@
 
         function loadXMLDoc(url, cb) {
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
+            xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    // alert('re')
+                    console.log(JSON.parse(this.responseText));
                     cb(JSON.parse(this.responseText));
                 }
             };
@@ -91,45 +97,73 @@
         }
 
         function addart(img) {
-            img.src = cplayer.albumArt();
+            img.src = albumArt();
         }
+
         function openAlbum(albm) {
             loadXMLDoc(albm, renderList);
         }
 
         function loadAlbum() {
-            loadXMLDoc("http://" + hostname + ":3000/albums/", renderAlbum);
+            // loadXMLDoc("http://" + hostname + ":3000/albums/", renderAlbum);
+            loadXMLDoc("http://" + hostname + ":3000/album/6", renderList);
+            // loadXMLDoc("https://msound.ml/stage/api/album/1", renderList);
+
         }
 
-        loadAlbum();
+        // loadAlbum();
 
         // renderAlbum
 
 
-        let html = '<div><a onclick="openAlbum( \'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3\' )" href="javascript:" >'
-            + '<img src="" width="80px" class="rounded-sm" onerror="addart(this)"><strong>https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3</strong></a></div>';
-        document.getElementById('albumlist').innerHTML = html;
+        // let html = '<div><a onclick="openAlbum( \'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3\' )" href="javascript:" >' +
+        //     '<img src="" width="80px" class="rounded-sm" onerror="addart(this)"><strong>https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3</strong></a></div>';
+        // document.getElementById('albumlist').innerHTML = html;
 
+        let data = {
+            "album": "album4tt",
+            "albumart": "http://localhost:3000/image/1/album4tt.jpg",
+            "list": [{
+                "id": 16,
+                "title": "03 Tera Hua - Loveratri.mp3",
+                "src": "http://localhost:3000/audio/1/03_Tera_Hua_-_Loveratri.ts",
+                "img": "http://localhost:3000/image/1/album4tt.jpg",
+                "playcount": 0
+            }, {
+                "id": 17,
+                "title": "01 Chogada - Loveratri.mp3",
+                "src": "http://localhost:3000/audio/1/01_Chogada_-_Loveratri.ts",
+                "img": "http://localhost:3000/image/1/album4tt.jpg",
+                "playcount": 0
+            }, {
+                "id": 18,
+                "title": "02 Akh Lad Jave - Loveratri.mp3",
+                "src": "http://localhost:3000/audio/1/02_Akh_Lad_Jave_-_Loveratri.ts",
+                "img": "http://localhost:3000/image/1/album4tt.jpg",
+                "playcount": 0
+            }]
+        };
 
-
-
+        renderList(data);
     </script>
 
     <!-- Optional JavaScript -->
-    <script type="text/javascript" src="dist/js/cplayer.min.js"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- <script type="text/javascript" src="dist/js/cplayer.min.js"></script> -->
+
+    <script type="text/javascript" src="src/audio/play.js"></script>
     <script>
-        cplayer.settings({ playlist: 'playlist', clearButton: { class: 'btn btn-link' } })
+        cplayer.settings({
+            playlist: 'playlist',
+            clearButton: {
+                class: 'btn btn-link'
+            }
+        })
     </script>
 
 

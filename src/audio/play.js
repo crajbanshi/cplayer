@@ -3,16 +3,18 @@
  * Copyright 2019 Chanchal Rajbanshi (https://github.com/crajbanshi/cplayer)
  * Licensed under MIT
  */
-
-(function () {
+'use strict';
+(function() {
     class CAPlay {
+
         constructor() {
+            this.config = {};
             var cplayer = document.createElement('cplayer');
             document.body.appendChild(cplayer);
             this.cplayerElemtnt = cplayer;
             this.clearButton = { class: '', onclick: 'cplayer.clearPlaylist' }
             if (!this.artimg) {
-                this.artimg = albumArt()
+                this.artimg = this.albumArt()
             }
             if (!CAPlay.configured)
                 this.pface = playerFace;
@@ -36,7 +38,9 @@
                 list = [list];
             }
             list.forEach((item, index) => {
-                const found = this.playlist.findIndex(el => el.src === item.src);
+                let found = -1;
+                if (Array.isArray(this.playlist) && this.playlist.length > 0)
+                    found = this.playlist.findIndex(el => el.src === item.src);
                 if (found < 0) {
                     this.playlist.push(item);
                 }
@@ -53,7 +57,7 @@
         }
 
         clearPlaylist() {
-            localStorage.setItem(window.location.hostname + "playlist", '');
+            localStorage.removeItem(window.location.hostname + "playlist");
             this.playlist = [];
             this.displayPlayList();
             this.nowPlayingIndex = -1;
@@ -63,15 +67,13 @@
             var link = document.createElement('link');
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = window.location.href + 'dist/css/cplayer.min.css';
-            console.info(link.href);
+            link.href = window.location.href + 'src/css/cplayer.css';
             var head = document.getElementsByTagName('HEAD')[0];
             head.appendChild(link);
         }
 
         createPlayer() {
             var me = this;
-            this.loadCSS();
 
             this.player = {};
             this.player.div = document.createElement('div');
@@ -131,7 +133,7 @@
             this.player.volume.value = 0.5;
 
             this.player.playpause.innerHTML = me.pface.play;
-            this.player.playpause.addEventListener('click', function () {
+            this.player.playpause.addEventListener('click', function() {
                 if (!me.audio.src) {
                     me.playNow(me.playlist[0]);
                 } else if (me.audio.paused) {
@@ -141,17 +143,17 @@
                 }
             }, false);
 
-            this.player.prev.addEventListener('click', function () {
+            this.player.prev.addEventListener('click', function() {
                 me.prev();
             }, false);
 
-            this.player.next.addEventListener('click', function () {
+            this.player.next.addEventListener('click', function() {
                 me.next()
             }, false);
 
 
             this.player.mutebtn.innerHTML = me.pface.mute;
-            this.player.mutebtn.addEventListener('click', function () {
+            this.player.mutebtn.addEventListener('click', function() {
                 me.mute();
             }, false);
 
@@ -185,14 +187,13 @@
             var me = this;
             this.pageTitle = document.title
             this.playlist = [];
-
-            this.listElement = document.createElement('div');
-
-            if (localStorage.getItem(window.location.hostname + "playlist")) {
-                this.playlist = JSON.parse(localStorage.getItem(window.location.hostname + "playlist"));
+            var oldPlayList = localStorage.getItem(window.location.hostname + "playlist");
+            this.listElement = "playlist"; // document.createElement('div');
+            oldPlayList = JSON.parse(oldPlayList)
+            if (oldPlayList != null) {
+                this.playlist = oldPlayList;
             }
-
-            this.audio.addEventListener('loadeddata', function () {
+            this.audio.addEventListener('loadeddata', function() {
                 me.loaded = true;
                 var duration = me.timeFormat(me.audio.duration);
                 me.player.pduration.innerHTML = duration;
@@ -201,37 +202,37 @@
             }, false);
 
 
-            this.audio.addEventListener('timeupdate', function () {
+            this.audio.addEventListener('timeupdate', function() {
                 me.player.pslider.value = (me.audio.currentTime);
                 var seek = me.timeFormat(me.audio.currentTime);
                 me.player.seektime.innerHTML = seek;
 
             }, false);
 
-            this.audio.addEventListener('error', function () {
-                console.log('error loading audio');
+            this.audio.addEventListener('error', function() {
+                // console.log('error loading audio');
                 me.addTitle('error loading audio');
             }, false);
 
-            this.audio.onplaying = function () {
+            this.audio.onplaying = function() {
                 me.player.playpause.innerHTML = me.pface.pause;
             };
 
-            this.audio.onpause = function () {
+            this.audio.onpause = function() {
                 me.player.playpause.innerHTML = me.pface.play;
             };
 
-            this.audio.onended = function () {
+            this.audio.onended = function() {
                 me.player.playpause.innerHTML = me.pface.play;
                 me.next();
             };
 
 
-            this.player.pslider.oninput = function (e) {
+            this.player.pslider.oninput = function(e) {
                 me.audio.currentTime = e.target.value;
             };
 
-            this.player.volume.oninput = function (e) {
+            this.player.volume.oninput = function(e) {
                 me.audio.volume = this.value;
             };
         }
@@ -252,10 +253,10 @@
             var me = this;
             this.player.artimg.src = this.artimg;
             var tester = new Image();
-            tester.onload = function () {
+            tester.onload = function() {
                 me.player.artimg.src = img;
             }
-            tester.onerror = function () {
+            tester.onerror = function() {
                 me.player.artimg.src = me.artimg;
             };
             tester.src = img;
@@ -271,10 +272,11 @@
             this.playFile(obj.src);
             this.addImage(obj.img);
             this.addTitle(obj.title);
-            this.play();
             this.addToPlayList(obj);
             this.nowPlayingIndex = this.playlist.findIndex(el => el.src === obj.src);
+            this.src = obj.src;
             this.displayPlayList();
+            this.play();
         }
 
         playNowIndex(index) {
@@ -313,8 +315,11 @@
 
         timeFormat(timeInSec) {
             var hour = parseInt(timeInSec / (60 * 60));
-            var min = parseInt(timeInSec / 60);
+            var min = parseInt(timeInSec / 60) - hour * 60;
             var sec = parseInt(((timeInSec / 60) - parseInt(timeInSec / 60)) * 60);
+            if (hour > 0 && min.toString().length <= 1) {
+                min = "0" + min;
+            }
             if (sec.toString().length <= 1) {
                 sec = "0" + sec;
             }
@@ -332,48 +337,64 @@
             }
         }
 
-        settings(options) {
-            if (options.playlist) {
-                this.listElement = options.playlist;
-            }
-            if (options.clearButton && options.clearButton.class) {
-                this.clearButton.class = options.clearButton.class;
-            }
-            if (options.volume) {
-                this.player.volume.value = options.volume / 100;
-            }
-            this.volumeShow(options.volumeHide);
-
-
-        }
-
         displayPlayList() {
-            var html = '<div class="btnContainer"><a onclick="' + this.clearButton.onclick + '()" class="'
-                + this.clearButton.class + '">Clear</a></div><div class="playlistswert"><table class="table">';
+            var html = '<div class="btnContainer"><a onclick="' + this.clearButton.onclick + '()" class="' +
+                this.clearButton.class + '">Clear</a></div><div class="playlistswert"><table class="table">';
             this.playlist.forEach((item, index) => {
                 var nowPlaying = ''
                 if (index == this.nowPlayingIndex) {
-                    nowPlaying = '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' + '<span class="playlistSpan"><i class="icono-play"></i></span>';
+                    nowPlaying = '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = cplayer.albumArt();"/>' + '<span class="playlistSpan"><i class="icono-play"></i></span>';
                 } else {
-                    nowPlaying = '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">' + '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = albumArt();"/>' + '</a>';
+                    nowPlaying = '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">' + '<img class="playlistArtImg" src="' + item.img + '" onerror="this.src = cplayer.albumArt();"/>' + '</a>';
                 }
-                html += '<tr>'
-                    + '<td width="40px">'
-                    + '<span class="playlistImg">'
-                    + nowPlaying
-                    + '</span>'
-                    + '</td>'
-                    + '<td>'
-                    + '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">'
-                    + item.title + '</a>'
-                    + '</td>'
-                    + '</tr>';
+                html += '<tr>' +
+                    '<td width="40px">' +
+                    '<span class="playlistImg">' +
+                    nowPlaying +
+                    '</span>' +
+                    '</td>' +
+                    '<td>' +
+                    '<a href="javascript:" onclick="cplayer.playNowIndex(' + index + ')">' +
+                    item.title + '</a>' +
+                    '</td>' +
+                    '</tr>';
 
             });
             html += '</table></div>';
 
             document.getElementById(this.listElement).innerHTML = html;
 
+        }
+
+        getCurrentTrack() {
+            if (this.nowPlayingIndex > -1 && this.playlist.length - 1 > this.nowPlayingIndex) {
+                return this.playlist[this.nowPlayingIndex];
+            }
+            return null;
+        }
+
+        settings(options) {
+            this.config = options;
+            if (this.config.loadCSS) {
+                this.loadCSS();
+            }
+            if (this.config.playlist) {
+                this.listElement = this.config.playlist;
+            }
+            if (this.config.clearButton && this.config.clearButton.class) {
+                this.clearButton.class = this.config.clearButton.class;
+            }
+            if (this.config.volume) {
+                this.player.volume.value = this.config.volume / 100;
+            }
+            this.volumeShow(this.config.volumeHide);
+
+            this.displayPlayList();
+
+        }
+
+        albumArt() {
+            return albumArt(); //window.location.protocol + '//' + window.location.host + '/assets/favicons/apple-icon-60x60.png';
         }
     }
 
@@ -390,41 +411,62 @@
         var els = Array.from(document.getElementsByTagName('cplayer'));
         var len = els.length;
         cp = [];
-        els.forEach(function (element, i) {
+        els.forEach(function(element, i) {
             cp[i] = new CAPlay(element);
         });
     }
-    cp = CAPlay.singlePlayer();
+    window.cp = CAPlay.singlePlayer();
+    // window.cplayer = CAPlay.singlePlayer();
 
 }());
 
-cplayer = {}
+window.cplayer = {}
 
-cplayer.settings = function (options) {
-    console.log('options', options);
+cplayer.settings = function(options) {
     cp.settings(options);
     cp.displayPlayList();
 }
 
-cplayer.playNow = function (obj) {
+cplayer.playNow = function(obj) {
     cp.playNow(obj)
 }
 
-cplayer.playNowIndex = function (index) {
+cplayer.playNowIndex = function(index) {
     cp.playNowIndex(index);
 }
 
-cplayer.addToPlayList = function (obj) {
+cplayer.addToPlayList = function(obj) {
     cp.addToPlayList(obj)
 }
 
-cplayer.clearPlaylist = function () {
+cplayer.clearPlaylist = function() {
     cp.clearPlaylist();
 }
 
-cplayer.getplayList = function () {
+cplayer.getPlayList = function() {
     return cp.getplayList();
 }
+
+cplayer.play = function() {
+    cp.play();
+}
+
+cplayer.pause = function() {
+    cp.pause();
+}
+
+cplayer.next = function() {
+    cp.next();
+}
+
+cplayer.prev = function() {
+    return cp.prev();
+}
+
+cplayer.getCurrentTrack = function() {
+    return cp.getCurrentTrack();
+}
+
 cplayer.albumArt = albumArt;
 
 function albumArt() {

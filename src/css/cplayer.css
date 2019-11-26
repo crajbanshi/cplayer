@@ -3,101 +3,112 @@
  * Copyright 2019 Chanchal Rajbanshi (https://github.com/crajbanshi/cplayer)
  * Licensed under MIT
  */
- 
- @import "icons/icono.min.css";
 
-  body{
-    /* margin-bottom: 70px; */
-  }
-  .bottomPlayer{
+@import "icons/icono.min.css";
+.bottomPlayer {
     height: 70px;
-  }
- .bottomPlayer:focus{
-   outline: none;
- }
- 
- .playerbtn,.playerbtn:hover, .playerbtn:active {
-   background-color:transparent;
-   -moz-border-radius:50%;
-   -webkit-border-radius: 50%;
-   border-radius:50%;
-   border: none !important;
-   outline:none !important;
-   color: aliceblue;
- }
- 
- .artimg{
-   width: 50px;
-   height: 50px;
- }
- 
- .player{		
-   background-color: #042020;
- }
- .bottomPlayer{
-   bottom: 0;
-   position: fixed;
-   width: 100%;
-   margin: 0px;
- }
- .bottomPlayer:focus, .bottomPlayer:hover, .bottomPlayer:active {
-   outline: none;
- }
- 
- .controls{
-   top: 17px;
-   position: absolute;
-   padding-left: 50px;
- }
- .controlBox{
-   padding-left: 5px;
- }
- .divin{
-   display: inline;
-   margin: 5px;
-   color: aliceblue;
- }
- .title{
-   white-space: nowrap;
-   font-size: 12px;
-   color: aliceblue;
- }
- .titlediv{
-   height: 20px;
-   width: 300px;
-   overflow: hidden;	
-   padding-left: 10px;
- }
- 
- /* marquee start */
- 
- .marquee {
-   height: 10px;
-   width: 200px;
- 
-   overflow: hidden;
-   position: relative;
- }
- 
- .marquee {
-   display: block;
-   width: 200%;
-   height: 30px;
-   overflow: hidden;
-   animation: marquee 10s linear infinite;
- }
- 
- .marquee span {
-   float: left;
-   width: 50%;
- }
- 
- @keyframes marquee {
-   0% { left: 0; }
-   100% { left: -100%; }
- }
- 
- .playlistswert{
+}
+
+.bottomPlayer:focus {
+    outline: none;
+}
+
+.playerbtn,
+.playerbtn:hover,
+.playerbtn:active {
+    background-color: transparent;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: none !important;
+    outline: none !important;
+    color: aliceblue;
+}
+
+.artimg {
+    width: 50px;
+    height: 50px;
+}
+
+.player {
+    background-color: #042020;
+}
+
+.bottomPlayer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    margin: 0px;
+}
+
+.bottomPlayer:focus,
+.bottomPlayer:hover,
+.bottomPlayer:active {
+    outline: none;
+}
+
+.controls {
+    top: 17px;
+    position: absolute;
+    padding-left: 50px;
+}
+
+.controlBox {
+    padding-left: 5px;
+}
+
+.divin {
+    display: inline;
+    margin: 5px;
+    color: aliceblue;
+}
+
+.title {
+    white-space: nowrap;
+    font-size: 12px;
+    color: aliceblue;
+}
+
+.titlediv {
+    height: 20px;
+    width: 300px;
+    overflow: hidden;
+    padding-left: 10px;
+}
+
+
+/* marquee start */
+
+.marquee {
+    height: 10px;
+    width: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee {
+    display: block;
+    width: 200%;
+    height: 30px;
+    overflow: hidden;
+    animation: marquee 10s linear infinite;
+}
+
+.marquee span {
+    float: left;
+    width: 50%;
+}
+
+@keyframes marquee {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -100%;
+    }
+}
+
+.playlistswert {
     margin-top: 38px;
     position: absolute;
     overflow-y: auto;
@@ -106,214 +117,227 @@
     left: 0;
     right: 0;
     width: 100%;
- }
- ::-webkit-scrollbar { 
-  display: none; 
-} 
- 
- .playlistswert .table td, .playlistswert .table th {
-   padding: 0rem;
-   height: 40px;
- }
- .playlistswert a{
-   color: black;
- }
- 
- .playlistImg {
-  position: relative;
-  text-align: center;
-  color: white;   
- }
- .playlistArtImg{   
-  width: 40px;
-  height: 40px;     
 }
 
- .playlistSpan{
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
+ ::-webkit-scrollbar {
+    display: none;
 }
 
- .btnContainer{
-  position: absolute;
-  right: 0;
- }
- 
-  .playlistImg>img{  
-   z-index: 1;
- }
- 
+.playlistswert .table td,
+.playlistswert .table th {
+    padding: 0rem;
+    height: 40px;
+}
 
- /* marquee end */
- 
-   
- .slider {
-   position: relative;
-   display: inline-block;
-   margin: -4px 6px 0 0;
-   width: 100%;
- }
- /* Input ------------------- */
- 
- input[type=range].seekslider {
-     margin: auto;
-     -webkit-appearance: none;
-     position: relative;
-     overflow: hidden;
-     height: 10px;
-     width: 100%;
-     cursor: pointer;
-     border-radius: 0; /* iOS */
- }
- 
+.playlistswert a {
+    color: white;
+}
+
+.playlistImg {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.playlistArtImg {
+    width: 40px;
+    height: 40px;
+}
+
+.playlistSpan {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.btnContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.playlistImg>img {
+    z-index: 1;
+}
+
+
+/* marquee end */
+
+.slider {
+    position: relative;
+    display: inline-block;
+    margin: -4px 6px 0 0;
+    width: 100%;
+}
+
+
+/* Input ------------------- */
+
+input[type=range].seekslider {
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 0;
+    /* iOS */
+}
+
  ::-webkit-slider-runnable-track {
-     background: tomato;
-     height: 10px;
-     width: 10px;
- }
- 
- /*
+    background: tomato;
+    height: 10px;
+    width: 10px;
+}
+
+
+/*
   * 1. Set to 0 width and remove border for a slider without a thumb
   */
+
  ::-webkit-slider-thumb {
-     -webkit-appearance: none;
-     width: 10px; /* 1 */
-     height: 10px;
-     background: #fff;
-     box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
-     border: none; /* 1 */
- }
- 
+    -webkit-appearance: none;
+    width: 10px;
+    /* 1 */
+    height: 10px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
+    border: none;
+    /* 1 */
+}
+
  ::-moz-range-track {
-     height: 10px;
-     background: tomato;
- }
- 
+    height: 10px;
+    background: tomato;
+}
+
  ::-moz-range-thumb {
-     background: #fff;
-     height: 10px;
-     width: 10px;
-     border: none;
-     border-radius: 0 !important;
-     box-shadow: -100vw 0 0 100vw  rgb(96, 219, 25);
-     box-sizing: border-box;
- }
- 
- ::-ms-fill-lower { 
-     background:  rgb(96, 219, 25);
-     height: 10px;
-     width: 10px;
- }
- 
- ::-ms-thumb { 
-     background: #fff;
-     border: none;
-     height: 10px;
-     width: 10px;
-     box-sizing: border-box;
- }
- 
- ::-ms-ticks-after { 
-     display: none; 
- }
- 
- ::-ms-ticks-before { 
-     display: none; 
- }
- 
- ::-ms-track { 
-     background: #ddd;
-     color: transparent;
-     height: 10px;
-     border: none;
- }
- 
- ::-ms-tooltip { 
-     display: none;
- }
- 
- 
- 
- /* volume */
- 
- input[type=range].volume  {
-   margin: auto;
-   -webkit-appearance: none;
-   position: relative;
-   overflow: hidden;
-   height: 10px;
-   width: 100px;
-   cursor: pointer;
-   border-radius: 0; /* iOS */
- }
- 
+    background: #fff;
+    height: 10px;
+    width: 10px;
+    border: none;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
+    box-sizing: border-box;
+}
+
+ ::-ms-fill-lower {
+    background: rgb(96, 219, 25);
+    height: 10px;
+    width: 10px;
+}
+
+ ::-ms-thumb {
+    background: #fff;
+    border: none;
+    height: 10px;
+    width: 10px;
+    box-sizing: border-box;
+}
+
+ ::-ms-ticks-after {
+    display: none;
+}
+
+ ::-ms-ticks-before {
+    display: none;
+}
+
+ ::-ms-track {
+    background: #ddd;
+    color: transparent;
+    height: 10px;
+    border: none;
+}
+
+ ::-ms-tooltip {
+    display: none;
+}
+
+
+/* volume */
+
+input[type=range].volume {
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 10px;
+    width: 100px;
+    cursor: pointer;
+    border-radius: 0;
+    /* iOS */
+}
+
  ::-webkit-slider-runnable-track {
-   background: tomato;
-   height: 10px;
-   width: 10px;
- }
- 
- /*
+    background: tomato;
+    height: 10px;
+    width: 10px;
+}
+
+
+/*
  * 1. Set to 0 width and remove border for a slider without a thumb
  */
+
  ::-webkit-slider-thumb {
-   -webkit-appearance: none;
-   width: 10px; /* 1 */
-   height: 10px;
-   background: #fff;
-   box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
-   border: none; /* 1 */
- }
- 
+    -webkit-appearance: none;
+    width: 10px;
+    /* 1 */
+    height: 10px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
+    border: none;
+    /* 1 */
+}
+
  ::-moz-range-track {
-   height: 10px;
-   background: tomato;
- }
- 
+    height: 10px;
+    background: tomato;
+}
+
  ::-moz-range-thumb {
-   background: #fff;
-   height: 10px;
-   width: 10px;
-   border: none;
-   border-radius: 0 !important;
-   box-shadow: -100vw 0 0 100vw  rgb(96, 219, 25);
-   box-sizing: border-box;
- }
- 
- ::-ms-fill-lower { 
-   background:  rgb(96, 219, 25);
-   height: 10px;
-   width: 10px;
- }
- 
- ::-ms-thumb { 
-   background: #fff;
-   border: none;
-   height: 10px;
-   width: 10px;
-   box-sizing: border-box;
- }
- 
- ::-ms-ticks-after { 
-   display: none; 
- }
- 
- ::-ms-ticks-before { 
-   display: none; 
- }
- 
- ::-ms-track { 
-   background: #ddd;
-   color: transparent;
-   height: 10px;
-   border: none;
- }
- 
- ::-ms-tooltip { 
-   display: none;
- }
- 
- 
+    background: #fff;
+    height: 10px;
+    width: 10px;
+    border: none;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw rgb(96, 219, 25);
+    box-sizing: border-box;
+}
+
+ ::-ms-fill-lower {
+    background: rgb(96, 219, 25);
+    height: 10px;
+    width: 10px;
+}
+
+ ::-ms-thumb {
+    background: #fff;
+    border: none;
+    height: 10px;
+    width: 10px;
+    box-sizing: border-box;
+}
+
+ ::-ms-ticks-after {
+    display: none;
+}
+
+ ::-ms-ticks-before {
+    display: none;
+}
+
+ ::-ms-track {
+    background: #ddd;
+    color: transparent;
+    height: 10px;
+    border: none;
+}
+
+ ::-ms-tooltip {
+    display: none;
+}

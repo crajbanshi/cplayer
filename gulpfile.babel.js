@@ -6,45 +6,75 @@ import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
 import cleanCSS from 'gulp-clean-css';
 import del from 'del';
+import typescript from 'typescript';
 
+let distDir = "dist/cplayer/";
 const paths = {
     styles: {
         src: 'src/css/**/*.css',
-        dest: 'dist/css/'
+        dest: distDir + 'css/'
     },
     scripts: {
         src: 'src/audio/**/*.js',
-        dest: 'dist/js/'
-    }
+        dest: distDir + 'js/'
+    },
+    ngstyle: {
+        src: 'src/*.scss',
+        dest: distDir
+    },
+    ngscripts: {
+        src: 'src/*.ts',
+        dest: distDir
+    },
+
+
 };
 
 /*
  * For small tasks you can export arrow functions
  */
-export const clean = () => del(['dist']);
+const clean = () => del(['dist']);
 
 /*
  * You can also declare named functions and export them as tasks
  */
-export function styles() {
+function styles() {
     return gulp.src(paths.styles.src)
         .pipe(less())
         .pipe(cleanCSS())
         .pipe(concat('cplayer.min.css'))
-        // pass in options to the stream
-        // .pipe(rename({
-        //     basename: 'cplayer',
-        //     suffix: '.min'
-        // }))
         .pipe(gulp.dest(paths.styles.dest));
 }
 
-export function scripts() {
+function scripts() {
     return gulp.src(paths.scripts.src, { sourcemaps: true })
         .pipe(babel())
         .pipe(uglify())
         .pipe(concat('cplayer.min.js'))
         .pipe(gulp.dest(paths.scripts.dest));
+}
+
+
+
+var tsProject = {
+    target: 'ES5',
+    out: 'assets/js/out.js',
+    noImplicitAny: true,
+    declarationFiles: false,
+    noExternalResolve: true,
+    noEmitOnError: false,
+    isolatedCompilation: true,
+    typescript: require('typescript')
+};
+
+function angularSupport() {
+    return gulp.src(paths.ngscripts.src)
+        .pipe(gulp.dest(paths.ngscripts.dest));
+}
+
+function angularStyle() {
+    return gulp.src(paths.ngstyle.src)
+        .pipe(gulp.dest(paths.ngstyle.dest));
 }
 
 /*
@@ -56,7 +86,13 @@ function watchFiles() {
 }
 export { watchFiles as watch };
 
-const build = gulp.series(clean, gulp.parallel(styles, scripts));
+gulp.task('clean', clean);
+
+gulp.task('ng', gulp.series(angularStyle, angularSupport));
+
+
+const build = gulp.series(clean, gulp.parallel(styles, scripts, 'ng'));
+
 /*
  * Export a default task
  */
