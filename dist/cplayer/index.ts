@@ -1,1 +1,1 @@
-export Cplayer from './cplayer.ts';
+export { Cplayer } from './cplayer';

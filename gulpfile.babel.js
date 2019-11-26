@@ -10,6 +10,10 @@ import typescript from 'typescript';
 
 let distDir = "dist/cplayer/";
 const paths = {
+    packageJson: {
+        src: 'package.json',
+        dest: distDir
+    },
     styles: {
         src: 'src/css/**/*.css',
         dest: distDir + 'css/'
@@ -35,6 +39,13 @@ const paths = {
  */
 const clean = () => del(['dist']);
 
+
+
+function copyPackageInfo() {
+    return gulp.src(paths.packageJson.src)
+        .pipe(gulp.dest(paths.packageJson.dest));
+}
+
 /*
  * You can also declare named functions and export them as tasks
  */
@@ -55,20 +66,9 @@ function scripts() {
 }
 
 
-
-var tsProject = {
-    target: 'ES5',
-    out: 'assets/js/out.js',
-    noImplicitAny: true,
-    declarationFiles: false,
-    noExternalResolve: true,
-    noEmitOnError: false,
-    isolatedCompilation: true,
-    typescript: require('typescript')
-};
-
 function angularSupport() {
     return gulp.src(paths.ngscripts.src)
+        // .pipe(rename('cplayer.d.ts'))
         .pipe(gulp.dest(paths.ngscripts.dest));
 }
 
@@ -91,7 +91,7 @@ gulp.task('clean', clean);
 gulp.task('ng', gulp.series(angularStyle, angularSupport));
 
 
-const build = gulp.series(clean, gulp.parallel(styles, scripts, 'ng'));
+const build = gulp.series(clean, gulp.series(copyPackageInfo, styles, scripts, angularStyle, angularSupport));
 
 /*
  * Export a default task
