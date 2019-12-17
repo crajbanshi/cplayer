@@ -1,8 +1,8 @@
-import 'cplayer/js/cplayer.min';
+import './js/cplayer.min';
 
 declare var cplayer: any;
 
-export declare class Cplayer extends cplayer {
+export class Cplayer extends cplayer {
     constructor() {
         super();
         require("style-loader!./cstyle.scss");
