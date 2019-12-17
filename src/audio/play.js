@@ -212,6 +212,7 @@
             this.audio.addEventListener('error', function() {
                 // console.log('error loading audio');
                 me.addTitle('error loading audio');
+                me.next();
             }, false);
 
             this.audio.onplaying = function() {
