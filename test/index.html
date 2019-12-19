@@ -16,7 +16,9 @@
     <div id="playlist">
     </div>
     <div style="height: 100px"></div>
-    <script type="text/javascript" src="http://localhost/cplayer/src/audio/play.js"></script>
+    <!-- <script type="text/javascript" src="http://localhost/cplayer/src/audio/play.js"></script> -->
+    <!-- <script type="text/javascript" src="src/audio/play.js"></script> -->
+    <script type="text/javascript" src="dist/js/cplayer.min.js"></script>
 
     <script>
         playlist = [];
@@ -54,7 +56,7 @@
             xhttp.send();
         }
 
-        function addart(img){           
+        function addart(img) {
             img.src = albumArt();
         }
         function openAlbum(albm) {
